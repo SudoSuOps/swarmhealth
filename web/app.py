@@ -52,29 +52,9 @@ def chat(message: str, history: list) -> str:
 def create_interface():
     """Create the Gradio interface."""
 
-    # Custom CSS
-    css = """
-    .gradio-container {
-        max-width: 900px !important;
-        margin: auto !important;
-    }
-    .message {
-        font-size: 16px !important;
-        line-height: 1.6 !important;
-    }
-    footer {
-        display: none !important;
-    }
-    """
-
     # Build interface
     with gr.Blocks(
         title="SwarmHealth - Diabetes Companion",
-        css=css,
-        theme=gr.themes.Soft(
-            primary_hue="blue",
-            secondary_hue="slate",
-        )
     ) as demo:
 
         # Header
@@ -105,9 +85,6 @@ def create_interface():
                 "How does stress affect blood sugar?",
                 "What should I know about diabetic eye exams?",
             ],
-            retry_btn=None,
-            undo_btn=None,
-            clear_btn="Start Over",
         )
 
         # Footer
