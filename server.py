@@ -343,6 +343,15 @@ async def chat_page():
     raise HTTPException(404, "Chat page not found")
 
 
+@app.get("/why")
+async def why_page():
+    """Serve blog/about page"""
+    why_path = Path("why-i-built-this.html")
+    if why_path.exists():
+        return FileResponse(why_path)
+    raise HTTPException(404, "Page not found")
+
+
 # ============================================================
 # STARTUP
 # ============================================================

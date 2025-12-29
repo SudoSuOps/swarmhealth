@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why I Built This | SwarmHealth</title>
+    <style>
+        :root {
+            --warm-50: #f5f0e6;
+            --warm-100: #ebe4d6;
+            --warm-200: #ddd4c4;
+            --warm-300: #cfc3ae;
+            --green-600: #16a34a;
+            --green-700: #15803d;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, var(--warm-100) 0%, var(--warm-50) 50%, var(--warm-100) 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--green-700);
+            text-decoration: none;
+            margin-bottom: 40px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .hive-banner {
+            background: var(--gray-800);
+            color: var(--warm-50);
+            padding: 32px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 48px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .hive-banner h1 {
+            font-size: 28px;
+            letter-spacing: 4px;
+            margin-bottom: 16px;
+        }
+
+        .hive-banner .motto {
+            font-size: 14px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .article {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 48px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .article h2 {
+            font-size: 32px;
+            color: var(--gray-800);
+            margin-bottom: 8px;
+        }
+
+        .article .date {
+            color: var(--gray-700);
+            font-size: 14px;
+            margin-bottom: 32px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .article p {
+            margin-bottom: 24px;
+            font-size: 18px;
+        }
+
+        .article h3 {
+            font-size: 24px;
+            color: var(--green-700);
+            margin-top: 40px;
+            margin-bottom: 16px;
+        }
+
+        .highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(22, 163, 74, 0.2) 60%);
+        }
+
+        .quote {
+            border-left: 4px solid var(--green-600);
+            padding-left: 24px;
+            margin: 32px 0;
+            font-style: italic;
+            color: var(--gray-700);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .stat {
+            background: var(--warm-100);
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--green-700);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-700);
+            margin-top: 8px;
+        }
+
+        .list {
+            margin: 24px 0;
+            padding-left: 24px;
+        }
+
+        .list li {
+            margin-bottom: 12px;
+        }
+
+        .cta {
+            background: var(--green-600);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 32px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .cta:hover {
+            background: var(--green-700);
+        }
+
+        .signature {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--warm-200);
+            font-style: italic;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 32px;
+            color: var(--gray-700);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: var(--green-700);
+            text-decoration: none;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 32px 16px;
+            }
+
+            .article {
+                padding: 32px 24px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hive-banner h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">&larr; Back to SwarmHealth</a>
+
+        <div class="hive-banner">
+            <h1>THE HIVE HEALS</h1>
+            <p class="motto">"Pay it forward. Be real. Run the rails."</p>
+        </div>
+
+        <article class="article">
+            <h2>Why I Built This</h2>
+            <p class="date">December 2024</p>
+
+            <p>
+                I built SwarmHealth because <span class="highlight">diabetes doesn't take days off</span>.
+                It's there at 3am when your CGM alarm goes off. It's there at Thanksgiving dinner when everyone's
+                eating pie and you're doing math in your head. It's there every single day, asking for your attention,
+                your energy, your willpower.
+            </p>
+
+            <p>
+                And most of the time? You're managing it alone.
+            </p>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">37M</div>
+                    <div class="stat-label">Americans with diabetes</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">No days off. Ever.</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">$0</div>
+                    <div class="stat-label">Cost to use SwarmHealth</div>
+                </div>
+            </div>
+
+            <h3>The Problem</h3>
+
+            <p>
+                Healthcare is broken. You get 15 minutes with your endo every 3 months. They look at your A1C,
+                maybe adjust a dose, and send you on your way. But what about the other 129,585 minutes in between?
+            </p>
+
+            <p>
+                What about when you're exhausted and don't know if you should exercise or rest? When you're staring
+                at a menu and everything looks like a carb bomb? When your feet are tingling and you're scared but
+                don't want to bother anyone?
+            </p>
+
+            <div class="quote">
+                "I just want someone who gets it. Someone I can talk to at 2am when I'm spiraling about my numbers."
+            </div>
+
+            <h3>The Solution</h3>
+
+            <p>
+                SwarmHealth is an AI companion that actually understands diabetes. Not from a textbook. From the trenches.
+            </p>
+
+            <p>
+                It knows that:
+            </p>
+
+            <ul class="list">
+                <li><strong>French fries hit different</strong> than sweet potato fries. And sometimes you need real alternatives, not lectures.</li>
+                <li><strong>Foot care prevents amputations.</strong> Daily inspection isn't optional. It's survival.</li>
+                <li><strong>A 10-minute walk after dinner</strong> can cut your spike by 30%. Movement is medicine.</li>
+                <li><strong>Burnout is real.</strong> You're not weak for feeling exhausted by something that never stops.</li>
+                <li><strong>Vitamins matter</strong> when you're on Metformin. B12 gets depleted. Most people don't know.</li>
+            </ul>
+
+            <h3>Why Free?</h3>
+
+            <p>
+                Because diabetes is already expensive enough. Test strips. Insulin. CGMs. Pump supplies.
+                The last thing you need is another subscription.
+            </p>
+
+            <p>
+                This runs on open-source AI. No venture capital. No data harvesting. No upsells.
+                Just a tool that helps people, built by people who give a damn.
+            </p>
+
+            <div class="quote">
+                Pay it forward. Be real. Run the rails.
+            </div>
+
+            <h3>What This Is (and Isn't)</h3>
+
+            <p>
+                <strong>This IS:</strong> A supportive companion that gives you real, actionable guidance.
+                Food swaps. Exercise tips. Foot care routines. Someone to talk to when it's 3am and you're tired of fighting alone.
+            </p>
+
+            <p>
+                <strong>This ISN'T:</strong> A replacement for your doctor. We don't prescribe insulin doses.
+                We don't diagnose. For emergencies, call 911. For mental health crises, call 988.
+            </p>
+
+            <h3>The Hive</h3>
+
+            <p>
+                We call it The Hive because we're stronger together. Every person managing diabetes is part of
+                this collective struggle. We share what works. We lift each other up. We heal together.
+            </p>
+
+            <p>
+                This is just the beginning. Diabetes companion today. More conditions tomorrow.
+                The Hive keeps growing.
+            </p>
+
+            <a href="/chat" class="cta">Talk to the Companion &rarr;</a>
+
+            <div class="signature">
+                <p>
+                    Built with care. Powered by open-source AI.<br>
+                    For the 37 million. For the ones managing alone at 3am.<br>
+                    For you.
+                </p>
+                <p style="margin-top: 16px;">
+                    &mdash; The SwarmHealth Team
+                </p>
+            </div>
+        </article>
+
+        <footer class="footer">
+            <p>
+                <a href="/">SwarmHealth</a> &middot;
+                <a href="/chat">Talk to Companion</a> &middot;
+                Free forever
+            </p>
+            <p style="margin-top: 8px;">
+                Not medical advice. Always consult your healthcare team.
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
