@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwarmHealth - Free AI Health Companions</title>
+    <meta name="description" content="Free AI companions for chronic conditions. Built by those who live it. Open source. Always free.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="SwarmHealth - Free AI Health Companions">
+    <meta property="og:description" content="Free AI companions for chronic conditions. Built by those who live it.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://swarmhealth.io">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --green-50: #f0fdf4;
+            --green-100: #dcfce7;
+            --green-200: #bbf7d0;
+            --green-400: #4ade80;
+            --green-500: #22c55e;
+            --green-600: #16a34a;
+            --green-700: #15803d;
+            --green-800: #166534;
+            --green-900: #14532d;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            /* Warm neutral tones - parchment/paper */
+            --warm-50: #f5f0e6;
+            --warm-100: #ebe4d6;
+            --warm-200: #ddd4c4;
+            --warm-300: #cfc3ae;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--warm-100) 0%, var(--warm-50) 50%, var(--warm-100) 100%);
+            color: var(--slate-800);
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            background: rgba(250, 249, 247, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--green-100);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--green-700);
+        }
+        
+        .logo-icon {
+            font-size: 1.75rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--slate-600);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--green-600);
+        }
+        
+        .nav-cta {
+            background: var(--green-600);
+            color: white !important;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        
+        .nav-cta:hover {
+            background: var(--green-700);
+            color: white !important;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--green-100);
+            color: var(--green-700);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--slate-900);
+        }
+        
+        .hero h1 span {
+            color: var(--green-600);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--slate-600);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: var(--green-600);
+            color: white;
+            box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: var(--green-700);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+        }
+        
+        .btn-secondary {
+            background: var(--warm-50);
+            color: var(--slate-700);
+            border: 2px solid var(--slate-200);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--green-400);
+            color: var(--green-700);
+        }
+        
+        /* Mission Banner */
+        .mission-banner {
+            background: linear-gradient(135deg, var(--green-700) 0%, var(--green-800) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 4rem 0;
+        }
+        
+        .mission-banner h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .mission-banner p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--slate-900);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: var(--warm-50);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--slate-200);
+            transition: all 0.2s;
+        }
+        
+        .feature-card:hover {
+            border-color: var(--green-300);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--slate-800);
+        }
+        
+        .feature-card p {
+            color: var(--slate-600);
+            line-height: 1.6;
+        }
+        
+        /* Companions Section */
+        .companions {
+            padding: 4rem 2rem;
+            background: var(--warm-100);
+        }
+        
+        .companions-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .companions h2 {
+            text-align: center;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .companions-subtitle {
+            text-align: center;
+            color: var(--slate-600);
+            margin-bottom: 3rem;
+            font-size: 1.125rem;
+        }
+        
+        .companion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .companion-card {
+            background: var(--warm-50);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 2px solid var(--slate-200);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .companion-card.active {
+            border-color: var(--green-400);
+        }
+        
+        .companion-card.coming-soon {
+            opacity: 0.7;
+        }
+        
+        .companion-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--green-500);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .companion-badge.soon {
+            background: var(--slate-400);
+        }
+        
+        .companion-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .companion-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .companion-card p {
+            color: var(--slate-600);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        .companion-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--slate-100);
+            font-size: 0.8rem;
+            color: var(--slate-500);
+        }
+        
+        /* Open Source Section */
+        .open-source {
+            padding: 4rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .open-source h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .open-source p {
+            color: var(--slate-600);
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+        }
+        
+        .code-block {
+            background: var(--slate-900);
+            color: var(--green-400);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            font-family: 'Fira Code', 'Monaco', monospace;
+            text-align: left;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .code-comment {
+            color: var(--slate-500);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--slate-900);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--slate-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--green-400);
+        }
+        
+        .footer-mission {
+            color: var(--slate-500);
+            font-size: 0.875rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Chat Widget */
+        .chat-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--green-600);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(22, 163, 74, 0.4);
+            transition: all 0.2s;
+            z-index: 1000;
+            border: none;
+        }
+        
+        .chat-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(22, 163, 74, 0.5);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .features-grid,
+            .companion-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <span class="logo-icon">💚</span>
+            <span>SwarmHealth</span>
+        </div>
+        <div class="nav-links">
+            <a href="/why">Our Mission</a>
+            <a href="#companions">Companions</a>
+            <a href="#open-source">Open Source</a>
+            <a href="https://github.com/swarmhealth" target="_blank">GitHub</a>
+            <a href="/chat" class="nav-cta">Try Free →</a>
+        </div>
+    </nav>
+    
+    <section class="hero">
+        <div class="hero-badge">
+            <span>💚</span>
+            <span>100% Free • Open Source • No Data Collected</span>
+        </div>
+        <h1>
+            AI <span>Health Companions</span><br>
+            For Those Who Need Them
+        </h1>
+        <p class="hero-subtitle">
+            Free AI companions for chronic conditions. Built by patients, for patients. 
+            No subscriptions. No ads. No data harvesting. Just support when you need it.
+        </p>
+        <div class="hero-cta">
+            <a href="/chat" class="btn btn-primary">
+                💬 Talk to a Companion
+            </a>
+            <a href="https://github.com/swarmhealth" class="btn btn-secondary" target="_blank">
+                ⭐ Star on GitHub
+            </a>
+        </div>
+    </section>
+    
+    <div class="mission-banner">
+        <h2>Built by Those Who Live It</h2>
+        <p>
+            Every companion is trained on real conversations, reviewed by real patients, 
+            and designed to provide the understanding that only lived experience can offer. 
+            Because sometimes you just need someone who gets it.
+        </p>
+    </div>
+    
+    <section class="features">
+        <h2>Why SwarmHealth?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🆓</div>
+                <h3>Always Free</h3>
+                <p>No subscriptions, no premium tiers, no hidden costs. Healthcare AI should be accessible to everyone, not just those who can afford it.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Privacy First</h3>
+                <p>Your conversations are never stored, sold, or used for training. Chat anonymously. We don't even know who you are.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>Open Source</h3>
+                <p>Every model, every line of code is open source. Download it, run it yourself, improve it. This belongs to everyone.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💚</div>
+                <h3>By Patients, For Patients</h3>
+                <p>Our training data comes from real conversations with people living with these conditions. Not medical textbooks—real life.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>Local First</h3>
+                <p>Run on your own hardware. No cloud required. Your health conversations never leave your device if you don't want them to.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Community Driven</h3>
+                <p>Submit conversation examples. Help train new companions. Every contribution helps someone else feel less alone.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="companions" id="companions">
+        <div class="companions-container">
+            <h2>Our Companions</h2>
+            <p class="companions-subtitle">AI companions trained to understand specific conditions</p>
+            
+            <div class="companion-grid">
+                <div class="companion-card active">
+                    <span class="companion-badge">Live</span>
+                    <div class="companion-icon">🩸</div>
+                    <h3>Diabetes Companion</h3>
+                    <p>Understanding blood sugar ups and downs, carb counting struggles, pump frustrations, and the mental load of 24/7 management.</p>
+                    <div class="companion-stats">
+                        <span>📚 1,800 conversations</span>
+                        <span>⭐ v1.0</span>
+                    </div>
+                </div>
+                
+                <div class="companion-card coming-soon">
+                    <span class="companion-badge soon">Coming Soon</span>
+                    <div class="companion-icon">💜</div>
+                    <h3>Chronic Pain Companion</h3>
+                    <p>For those living with fibromyalgia, chronic back pain, migraines, and other invisible conditions.</p>
+                </div>
+                
+                <div class="companion-card coming-soon">
+                    <span class="companion-badge soon">Coming Soon</span>
+                    <div class="companion-icon">🧠</div>
+                    <h3>Mental Health Companion</h3>
+                    <p>For anxiety, depression, and the daily challenges of mental health management.</p>
+                </div>
+                
+                <div class="companion-card coming-soon">
+                    <span class="companion-badge soon">Coming Soon</span>
+                    <div class="companion-icon">🫁</div>
+                    <h3>Respiratory Companion</h3>
+                    <p>For asthma, COPD, and other breathing conditions. Understanding triggers and management.</p>
+                </div>
+                
+                <div class="companion-card coming-soon">
+                    <span class="companion-badge soon">Coming Soon</span>
+                    <div class="companion-icon">🦋</div>
+                    <h3>Autoimmune Companion</h3>
+                    <p>For lupus, RA, MS, and the unpredictable nature of autoimmune conditions.</p>
+                </div>
+                
+                <div class="companion-card coming-soon">
+                    <span class="companion-badge soon">Want This?</span>
+                    <div class="companion-icon">➕</div>
+                    <h3>Request a Companion</h3>
+                    <p>Living with a condition not listed? Help us prioritize by sharing your story.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="open-source" id="open-source">
+        <h2>Run It Yourself</h2>
+        <p>Every model is available on HuggingFace. Run locally, no cloud required.</p>
+        
+        <div class="code-block">
+            <span class="code-comment"># Install</span><br>
+            pip install transformers<br><br>
+            <span class="code-comment"># Load the Diabetes Companion</span><br>
+            from transformers import pipeline<br><br>
+            companion = pipeline(<br>
+            &nbsp;&nbsp;"text-generation",<br>
+            &nbsp;&nbsp;model="swarmhealth/diabetes-companion"<br>
+            )<br><br>
+            <span class="code-comment"># Chat</span><br>
+            response = companion("I'm struggling with morning highs...")<br>
+            print(response)
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <a href="https://huggingface.co/swarmhealth" class="btn btn-primary" target="_blank">
+                🤗 View on HuggingFace
+            </a>
+            <a href="https://github.com/swarmhealth" class="btn btn-secondary" target="_blank">
+                📂 GitHub Repo
+            </a>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="/chat">Chat</a>
+            <a href="/why">Our Mission</a>
+            <a href="https://github.com/swarmhealth">GitHub</a>
+            <a href="https://huggingface.co/swarmhealth">Models</a>
+            <a href="mailto:hello@swarmhealth.io">Contact</a>
+        </div>
+        <p class="footer-mission">
+            SwarmHealth is a non-profit initiative. All models are MIT licensed. 
+            No data is ever collected. Built with 💚 by those who understand.
+        </p>
+    </footer>
+    
+    <button class="chat-fab" onclick="window.location.href='/chat'" title="Chat with a Companion">
+        💬
+    </button>
+</body>
+</html>
