@@ -26,7 +26,7 @@ from pydantic import BaseModel
 # CONFIGURATION
 # ============================================================
 
-MODEL_NAME = os.environ.get("MODEL_NAME", "swarmhealth/diabetes-companion")
+MODEL_NAME = os.environ.get("MODEL_NAME", "Trustcat/swarmhealth-nutrition-companion-v2")
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 PORT = int(os.environ.get("PORT", 8080))
 
@@ -56,31 +56,53 @@ model = None
 tokenizer = None
 
 def load_model():
-    """Load the companion model"""
+    """Load the companion model (base + LoRA adapter)"""
     global model, tokenizer
-    
+
     try:
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-        
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+        from peft import PeftModel
+
         print(f"🔄 Loading model: {MODEL_NAME}")
         print(f"   Device: {DEVICE}")
-        
+
+        # Base model for LoRA
+        BASE_MODEL = "Qwen/Qwen2.5-7B-Instruct"
+
+        # Load tokenizer from adapter (has our config)
         tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
         tokenizer.pad_token = tokenizer.eos_token
-        
-        model = AutoModelForCausalLM.from_pretrained(
-            MODEL_NAME,
-            torch_dtype=torch.float16 if DEVICE == "cuda" else torch.float32,
-            device_map="auto" if DEVICE == "cuda" else None,
-            low_cpu_mem_usage=True,
+
+        # Quantization for memory efficiency
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_use_double_quant=True,
         )
+
+        # Load base model
+        print(f"   Loading base: {BASE_MODEL}")
+        base_model = AutoModelForCausalLM.from_pretrained(
+            BASE_MODEL,
+            quantization_config=bnb_config,
+            device_map="auto",
+            torch_dtype=torch.bfloat16,
+            trust_remote_code=True,
+        )
+
+        # Apply LoRA adapter
+        print(f"   Applying LoRA adapter...")
+        model = PeftModel.from_pretrained(base_model, MODEL_NAME)
         model.eval()
-        
+
         print("✅ Model loaded successfully")
         return True
-        
+
     except Exception as e:
         print(f"⚠️ Failed to load model: {e}")
+        import traceback
+        traceback.print_exc()
         print("   Running in fallback mode")
         return False
 
