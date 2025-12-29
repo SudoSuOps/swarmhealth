@@ -109,42 +109,53 @@ class ChatResponse(BaseModel):
 # ============================================================
 
 FALLBACK_RESPONSES = [
-    "I hear you. Managing diabetes is a constant job, and it's okay to feel exhausted by it sometimes. What's been weighing on you the most?",
-    "That sounds really frustrating. The ups and downs of blood sugar can be so unpredictable. How are you taking care of yourself today?",
-    "Thank you for sharing that with me. You're not alone in feeling this way—diabetes burnout is real. What would help you feel a little better right now?",
-    "I understand. Some days are harder than others with diabetes. Remember that you're doing your best, even when it doesn't feel like it. What's one small win you've had recently?",
-    "It sounds like you're going through a tough time. The mental load of diabetes is often invisible to others, but it's very real. Would you like to talk more about what's happening?",
-    "I'm sorry you're dealing with this. Diabetes can feel relentless sometimes. Is there anything specific I can help you think through?",
-    "That makes total sense. The constant monitoring and adjustments can be overwhelming. How long have you been feeling this way?",
-    "I get it. Some days diabetes just... wins. And that's okay. Tomorrow is a new day. What usually helps you reset?",
+    "I hear you. Managing diabetes is relentless. One thing that helps some people: a 10-minute walk after meals can smooth out those post-meal spikes. What's been the hardest part for you lately?",
+    "That sounds really frustrating. When blood sugars feel unpredictable, sometimes going back to basics helps—hydration, protein with every meal, consistent meal timing. What's been working or not working for you?",
+    "Diabetes burnout is real—you're not failing, you're exhausted. What if you gave yourself permission to simplify for a week? Check less, stress less. What would make today a little easier?",
+    "The mental load of diabetes is invisible to everyone else, but it's constant. Some people find that batch-prepping low-carb snacks (nuts, cheese, boiled eggs) reduces decision fatigue. What drains you the most?",
+    "Some days diabetes just wins. That's okay. Tomorrow you reset. For now—have you eaten something with protein and fiber today? Sometimes that steadies both blood sugar and mood.",
+    "I get it. The 24/7 nature of this is exhausting. Movement helps some people reset mentally—even just stretching or a short walk. What usually helps you decompress?",
 ]
 
 import random
 
 def get_fallback_response(message: str) -> str:
-    """Get a contextual fallback response"""
+    """Get a contextual fallback response with actionable suggestions"""
     message_lower = message.lower()
-    
-    # Context-specific responses
-    if any(word in message_lower for word in ["high", "spike", "300", "400"]):
-        return "High blood sugars are so frustrating, especially when you can't figure out why. Have you been able to identify any patterns, or does it feel random?"
-    
-    if any(word in message_lower for word in ["low", "crash", "hypo", "shaking"]):
-        return "Lows are scary. That shaky, urgent feeling is the worst. Are you okay right now? Make sure you've treated it if you haven't already. 💚"
-    
-    if any(word in message_lower for word in ["pump", "omnipod", "tandem", "medtronic"]):
-        return "Pump issues can be so frustrating—when your lifeline doesn't work right, it's stressful. What's been going on with it?"
-    
-    if any(word in message_lower for word in ["cgm", "dexcom", "libre", "sensor"]):
-        return "CGM problems are the worst, especially when you're relying on it to keep you safe. Is it a sensor issue or something else?"
-    
-    if any(word in message_lower for word in ["tired", "exhausted", "burnout", "done"]):
-        return "Diabetes burnout is real, and it's okay to acknowledge when you're running on empty. You've been doing this 24/7 with no days off. What would taking a mental break look like for you?"
-    
+
+    # Crisis detection - prioritize safety
+    if any(word in message_lower for word in ["suicide", "kill myself", "end it", "give up on life", "don't want to live"]):
+        return "I'm really glad you're talking to me, but I'm worried about you. Please reach out to the 988 Suicide & Crisis Lifeline—call or text 988. You can also text HOME to 741741. You matter, and there are people who want to help. Are you safe right now?"
+
+    # High blood sugar - actionable
+    if any(word in message_lower for word in ["high", "spike", "300", "400", "won't come down"]):
+        return "High blood sugars are exhausting—physically and mentally. A few things that help some people: drink extra water, take a 15-minute walk if you can, and check for patterns (stress? meal timing? site issues?). Have you noticed anything that might be causing it?"
+
+    # Low blood sugar - urgent + actionable
+    if any(word in message_lower for word in ["low", "crash", "hypo", "shaking", "sweating"]):
+        return "Lows are scary. First—are you safe right now? If you haven't treated it: 15g fast carbs (juice, glucose tabs, regular soda), wait 15 mins, recheck. Once you're stable, let's talk about what might have caused it. You okay?"
+
+    # Tech frustrations
+    if any(word in message_lower for word in ["pump", "omnipod", "tandem", "medtronic", "cgm", "dexcom", "libre", "sensor"]):
+        return "Tech failures when your life depends on it are incredibly stressful. For sensor issues: hydration and placement matter a lot. For pumps: always have backup injection supplies ready. What's been going on with yours?"
+
+    # Burnout - validate + suggest
+    if any(word in message_lower for word in ["tired", "exhausted", "burnout", "done", "over it", "can't do this"]):
+        return "Burnout is your body saying 'this is too much.' You're not weak—you're human. Try this: pick ONE thing to simplify this week. Maybe fewer checks, looser targets, or letting go of 'perfect' numbers. What feels most overwhelming right now?"
+
+    # Food/eating struggles
+    if any(word in message_lower for word in ["food", "eat", "hungry", "diet", "carb", "snack", "meal"]):
+        return "Food and diabetes is complicated—it's not just fuel, it's math and emotions and guilt all mixed together. Remember: no food is forbidden. Pairing carbs with protein/fat helps. Some people find eating protein first slows the spike. What's your relationship with food been like lately?"
+
+    # Exercise
+    if any(word in message_lower for word in ["exercise", "workout", "gym", "walk", "run", "active"]):
+        return "Exercise with diabetes is tricky—it can drop you or spike you depending on the type and timing. Walking after meals tends to lower BG gently. Strength training might spike you short-term. Key is checking before/after and having fast carbs ready. What kind of movement are you thinking about?"
+
+    # A1C / doctor anxiety
     if any(word in message_lower for word in ["doctor", "endo", "appointment", "a1c"]):
-        return "Medical appointments can bring up a lot of emotions—anxiety about numbers, feeling judged, or just the exhaustion of explaining everything again. How are you feeling about it?"
-    
-    # Default to random supportive response
+        return "Appointment anxiety is real. Remember: your A1C is data, not a grade. A good endo works WITH you, not against you. If you feel judged, it might be time for a new provider. Would it help to write down your questions/concerns before you go?"
+
+    # Default to random actionable response
     return random.choice(FALLBACK_RESPONSES)
 
 
@@ -152,21 +163,47 @@ def get_fallback_response(message: str) -> str:
 # GENERATION
 # ============================================================
 
-SYSTEM_PROMPT = """You are a supportive companion for someone living with diabetes. You understand the daily challenges—the blood sugar swings, the constant monitoring, the technology frustrations, the mental load, and the burnout.
+SYSTEM_PROMPT = """You are a supportive companion for someone living with diabetes. You understand the daily challenges—blood sugar swings, constant monitoring, technology frustrations, the mental load, and burnout.
 
-Your role is to:
-- Listen with empathy and understanding
-- Validate their feelings and experiences
-- Offer emotional support
-- Share that they're not alone
+## Your Approach
 
-You must NEVER:
-- Give medical advice
-- Suggest insulin doses or medication changes
-- Diagnose conditions
-- Replace their healthcare team
+When someone shares their struggles, provide REAL, ACTIONABLE support across three areas:
 
-Always be warm, supportive, and understanding. Use a conversational tone like talking to a friend who gets it."""
+### 1. EMOTIONAL SUPPORT
+- Validate their feelings genuinely—not with empty phrases
+- Share that diabetes burnout is real and they're not failing
+- If they seem in crisis or mention self-harm, gently encourage reaching out to:
+  - Their care team or doctor
+  - 988 Suicide & Crisis Lifeline (call/text 988)
+  - A trusted friend or family member
+
+### 2. NUTRITION GUIDANCE (general wellness, not prescriptive)
+- Suggest blood-sugar-friendly foods: leafy greens, lean proteins, nuts, legumes, whole grains
+- Mention timing strategies: eating protein first, pairing carbs with fiber/fat
+- Hydration reminders—water helps with glucose regulation
+- Acknowledge that food isn't the enemy and occasional treats are okay
+- For specific meal plans, recommend they work with a dietitian
+
+### 3. MOVEMENT & EXERCISE
+- Walking after meals can help lower post-meal spikes
+- Gentle movement: yoga, stretching, swimming are low-impact options
+- Suggest starting small: 10-minute walks, not marathons
+- Acknowledge that exercise affects blood sugar differently for everyone
+- Remind them to check BG before/after exercise if they're insulin-dependent
+
+## Response Style
+- Be warm but REAL—not saccharine or performative
+- Give 1-2 concrete suggestions they can try TODAY
+- Ask follow-up questions to understand their situation
+- Keep responses focused and helpful, not preachy
+
+## Safety Boundaries
+- NEVER suggest specific insulin doses or medication changes
+- NEVER diagnose conditions
+- For medical emergencies (DKA symptoms, severe hypos), urge immediate medical care
+- Always frame suggestions as "things that help some people" not medical advice
+
+You're a knowledgeable friend who lives with diabetes too—practical, caring, and real."""
 
 
 def generate_response(message: str, history: List[Message]) -> str:
