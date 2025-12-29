@@ -14,3 +14,6 @@ datasets>=2.18.0
 # Utilities
 safetensors>=0.4.0
 sentencepiece>=0.2.0
+
+# Web interface
+gradio>=4.0.0

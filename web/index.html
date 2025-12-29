@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwarmHealth - Free AI Health Companions</title>
+    <meta name="description" content="Free, open-source AI companions for people living with chronic conditions. Built by someone who lives it. For those who need it.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: #a0aec0;
+            margin-bottom: 10px;
+        }
+
+        .mission {
+            font-size: 1.1rem;
+            color: #718096;
+            font-style: italic;
+        }
+
+        .hero {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 40px 0;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #4facfe;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #a0aec0;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            color: #1a1a2e;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 18px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(79, 172, 254, 0.3);
+        }
+
+        .companions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .companion-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .companion-card:hover {
+            transform: translateY(-5px);
+            border-color: #4facfe;
+        }
+
+        .companion-card.active {
+            border-color: #4facfe;
+            background: rgba(79, 172, 254, 0.1);
+        }
+
+        .companion-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #4facfe;
+        }
+
+        .companion-card p {
+            color: #a0aec0;
+            margin-bottom: 20px;
+        }
+
+        .companion-card .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status.live {
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+        }
+
+        .status.coming {
+            background: rgba(160, 174, 192, 0.2);
+            color: #a0aec0;
+        }
+
+        .story {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 60px 0;
+            border-left: 4px solid #4facfe;
+        }
+
+        .story h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #4facfe;
+        }
+
+        .story p {
+            color: #a0aec0;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .story .signature {
+            font-style: italic;
+            color: #718096;
+            margin-top: 30px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature h4 {
+            color: #4facfe;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+
+        .disclaimer {
+            background: rgba(245, 101, 101, 0.1);
+            border: 1px solid rgba(245, 101, 101, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .disclaimer p {
+            color: #fc8181;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 0 40px;
+            color: #718096;
+        }
+
+        footer a {
+            color: #4facfe;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .links {
+            margin: 20px 0;
+        }
+
+        .links a {
+            margin: 0 15px;
+        }
+
+        .quote {
+            font-style: italic;
+            color: #a0aec0;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">SwarmHealth</div>
+            <p class="tagline">Free AI Health Companions</p>
+            <p class="mission">Built by those who live it. For those who need it.</p>
+        </header>
+
+        <section class="hero">
+            <h2>🩺 Diabetes Companion</h2>
+            <p>
+                A compassionate AI that understands the daily exhaustion, the brain fog,
+                the fear of complications, and the loneliness of a disease no one else can see.
+            </p>
+            <a href="/chat" class="cta-button">Start Talking</a>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <div class="feature-icon">💚</div>
+                <h4>Empathy First</h4>
+                <p>Understands the emotional weight of chronic disease</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🧠</div>
+                <h4>Real Knowledge</h4>
+                <p>Blood glucose, nutrition, complications, autoimmune</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🤝</div>
+                <h4>Accountability</h4>
+                <p>Holds you accountable with love, never shame</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔓</div>
+                <h4>100% Free</h4>
+                <p>Open source. No ads. No data selling. Ever.</p>
+            </div>
+        </section>
+
+        <section class="story">
+            <h2>The Story</h2>
+            <p>
+                I'm a Type 1 diabetic. I lost my foot to this disease. I also have Addison's disease.
+            </p>
+            <p>
+                For years, I wished I had someone to talk to who truly understood.
+                Not a doctor who sees me for 15 minutes twice a year.
+                Not a website full of generic advice.
+                Someone who gets it.
+            </p>
+            <p>
+                So I built it.
+            </p>
+            <p class="signature">
+                — This is the guide I wish I had.
+            </p>
+        </section>
+
+        <section class="companions">
+            <div class="companion-card active">
+                <h3>🩺 Diabetes Companion</h3>
+                <p>Type 1, Type 2, autoimmune, brain fog, complications, burnout</p>
+                <span class="status live">LIVE</span>
+            </div>
+            <div class="companion-card">
+                <h3>🧠 Mental Health</h3>
+                <p>Anxiety, depression, chronic illness burnout</p>
+                <span class="status coming">Coming Soon</span>
+            </div>
+            <div class="companion-card">
+                <h3>💜 Chronic Pain</h3>
+                <p>Fibromyalgia, invisible illness, fatigue</p>
+                <span class="status coming">Coming Soon</span>
+            </div>
+        </section>
+
+        <div class="disclaimer">
+            <p>
+                ⚠️ <strong>Not Medical Advice.</strong> SwarmHealth is for emotional support and education only.
+                Always consult your healthcare provider. In emergencies, call 911.
+            </p>
+        </div>
+
+        <footer>
+            <div class="links">
+                <a href="https://github.com/swarmhealth">GitHub</a>
+                <a href="https://huggingface.co/Trustcat/swarmhealth-diabetes-companion">HuggingFace</a>
+                <a href="/chat">Chat</a>
+            </div>
+            <p>MIT License — Use it, modify it, share it. Just help people.</p>
+            <p class="quote">
+                "This person is someone's parent, someone's child, someone's love. Treat them that way."
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
