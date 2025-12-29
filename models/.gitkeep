@@ -1,0 +1,5 @@
+# Model files are hosted on HuggingFace Hub
+# Download: https://huggingface.co/diabetes-companion/diabetes-companion-lora
+#
+# Or retrain from scratch:
+#   python training/train_diabetes_llm.py --action train
