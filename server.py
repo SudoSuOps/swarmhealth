@@ -1,5 +1,5 @@
 """
-SwarmHealth API Server
+SwarmHealth API Server v3.0
 Serves AI health companions via REST API
 
 Run:
@@ -26,7 +26,8 @@ from pydantic import BaseModel
 # CONFIGURATION
 # ============================================================
 
-MODEL_NAME = os.environ.get("MODEL_NAME", "Trustcat/swarmhealth-nutrition-companion-v2")
+# v3: Merged model (not LoRA adapter) - two-stage fine-tuned Qwen2.5-7B
+MODEL_NAME = os.environ.get("MODEL_NAME", "Trustcat/swarmhealth-diabetes-companion")
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 PORT = int(os.environ.get("PORT", 8080))
 
@@ -37,7 +38,7 @@ PORT = int(os.environ.get("PORT", 8080))
 app = FastAPI(
     title="SwarmHealth API",
     description="Free AI Health Companions",
-    version="1.0.0",
+    version="3.0.0",
 )
 
 app.add_middleware(
@@ -56,24 +57,20 @@ model = None
 tokenizer = None
 
 def load_model():
-    """Load the companion model (base + LoRA adapter)"""
+    """Load the companion model (v3: merged full model)"""
     global model, tokenizer
 
     try:
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-        from peft import PeftModel
 
         print(f"🔄 Loading model: {MODEL_NAME}")
         print(f"   Device: {DEVICE}")
 
-        # Base model for LoRA
-        BASE_MODEL = "Qwen/Qwen2.5-7B-Instruct"
-
-        # Load tokenizer from adapter (has our config)
-        tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+        # Load tokenizer
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)
         tokenizer.pad_token = tokenizer.eos_token
 
-        # Quantization for memory efficiency
+        # Quantization for memory efficiency (optional - can run in bf16 if enough VRAM)
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_quant_type="nf4",
@@ -81,22 +78,18 @@ def load_model():
             bnb_4bit_use_double_quant=True,
         )
 
-        # Load base model
-        print(f"   Loading base: {BASE_MODEL}")
-        base_model = AutoModelForCausalLM.from_pretrained(
-            BASE_MODEL,
+        # v3: Load merged model directly (no separate base + adapter)
+        print(f"   Loading merged model...")
+        model = AutoModelForCausalLM.from_pretrained(
+            MODEL_NAME,
             quantization_config=bnb_config,
             device_map="auto",
             torch_dtype=torch.bfloat16,
             trust_remote_code=True,
         )
-
-        # Apply LoRA adapter
-        print(f"   Applying LoRA adapter...")
-        model = PeftModel.from_pretrained(base_model, MODEL_NAME)
         model.eval()
 
-        print("✅ Model loaded successfully")
+        print("✅ Model loaded successfully (v3 merged)")
         return True
 
     except Exception as e:
@@ -131,53 +124,65 @@ class ChatResponse(BaseModel):
 # ============================================================
 
 FALLBACK_RESPONSES = [
-    "I hear you. Managing diabetes is relentless. One thing that helps some people: a 10-minute walk after meals can smooth out those post-meal spikes. What's been the hardest part for you lately?",
-    "That sounds really frustrating. When blood sugars feel unpredictable, sometimes going back to basics helps—hydration, protein with every meal, consistent meal timing. What's been working or not working for you?",
-    "Diabetes burnout is real—you're not failing, you're exhausted. What if you gave yourself permission to simplify for a week? Check less, stress less. What would make today a little easier?",
-    "The mental load of diabetes is invisible to everyone else, but it's constant. Some people find that batch-prepping low-carb snacks (nuts, cheese, boiled eggs) reduces decision fatigue. What drains you the most?",
-    "Some days diabetes just wins. That's okay. Tomorrow you reset. For now—have you eaten something with protein and fiber today? Sometimes that steadies both blood sugar and mood.",
-    "I get it. The 24/7 nature of this is exhausting. Movement helps some people reset mentally—even just stretching or a short walk. What usually helps you decompress?",
+    "That constant vigilance is exhausting — the monitoring, the decisions, the mental load that never stops. What would help right now?",
+    "Diabetes burnout is real. If it's becoming too much, something needs to change. What's been the hardest part lately?",
+    "I hear you. The daily grind of diabetes management wears people down. You're not alone in feeling this way.",
+    "Some days are harder than others. What's one thing that's been weighing on you most?",
+    "The mental load is invisible to everyone else, but it's constant. What drains you the most?",
+    "That sounds frustrating. What's been working or not working for you lately?",
 ]
 
 import random
 
 def get_fallback_response(message: str) -> str:
-    """Get a contextual fallback response with actionable suggestions"""
+    """Get a contextual fallback response (v3 style: direct, empathetic)"""
     message_lower = message.lower()
 
     # Crisis detection - prioritize safety
     if any(word in message_lower for word in ["suicide", "kill myself", "end it", "give up on life", "don't want to live"]):
-        return "I'm really glad you're talking to me, but I'm worried about you. Please reach out to the 988 Suicide & Crisis Lifeline—call or text 988. You can also text HOME to 741741. You matter, and there are people who want to help. Are you safe right now?"
+        return "I'm concerned about you. Please reach out to the 988 Suicide & Crisis Lifeline — call or text 988. You can also text HOME to 741741. Are you safe right now?"
 
-    # High blood sugar - actionable
-    if any(word in message_lower for word in ["high", "spike", "300", "400", "won't come down"]):
-        return "High blood sugars are exhausting—physically and mentally. A few things that help some people: drink extra water, take a 15-minute walk if you can, and check for patterns (stress? meal timing? site issues?). Have you noticed anything that might be causing it?"
+    # Emergency symptoms
+    if any(word in message_lower for word in ["chest pain", "can't breathe", "confusion", "passing out"]):
+        return "Those symptoms need medical evaluation right now. Please call 911 or go to the ER. Don't wait."
 
-    # Low blood sugar - urgent + actionable
+    # Very high blood sugar with symptoms
+    if any(word in message_lower for word in ["400", "500", "dka", "vomiting", "fruity breath"]):
+        return "Blood sugar that high with symptoms needs immediate medical attention. Please call your doctor or go to the ER now. This isn't something to manage alone."
+
+    # High blood sugar
+    if any(word in message_lower for word in ["high", "spike", "300", "won't come down"]):
+        return "High blood sugars are exhausting — physically and mentally. Have you noticed any patterns? Stress, meal timing, or site issues can all play a role."
+
+    # Low blood sugar
     if any(word in message_lower for word in ["low", "crash", "hypo", "shaking", "sweating"]):
-        return "Lows are scary. First—are you safe right now? If you haven't treated it: 15g fast carbs (juice, glucose tabs, regular soda), wait 15 mins, recheck. Once you're stable, let's talk about what might have caused it. You okay?"
+        return "Are you safe right now? If you're low: 15g fast carbs, wait 15 mins, recheck. Once you're stable, we can talk about what might have caused it."
 
     # Tech frustrations
     if any(word in message_lower for word in ["pump", "omnipod", "tandem", "medtronic", "cgm", "dexcom", "libre", "sensor"]):
-        return "Tech failures when your life depends on it are incredibly stressful. For sensor issues: hydration and placement matter a lot. For pumps: always have backup injection supplies ready. What's been going on with yours?"
+        return "Tech failures when your life depends on it are incredibly stressful. What's been going on with yours?"
 
-    # Burnout - validate + suggest
+    # Burnout
     if any(word in message_lower for word in ["tired", "exhausted", "burnout", "done", "over it", "can't do this"]):
-        return "Burnout is your body saying 'this is too much.' You're not weak—you're human. Try this: pick ONE thing to simplify this week. Maybe fewer checks, looser targets, or letting go of 'perfect' numbers. What feels most overwhelming right now?"
+        return "Burnout is real. If it's becoming too much, something needs to change. What feels most overwhelming right now?"
 
-    # Food/eating struggles
+    # Food struggles
     if any(word in message_lower for word in ["food", "eat", "hungry", "diet", "carb", "snack", "meal"]):
-        return "Food and diabetes is complicated—it's not just fuel, it's math and emotions and guilt all mixed together. Remember: no food is forbidden. Pairing carbs with protein/fat helps. Some people find eating protein first slows the spike. What's your relationship with food been like lately?"
+        return "Food and diabetes is complicated — it's math and emotions mixed together. What's been on your mind about eating?"
 
     # Exercise
     if any(word in message_lower for word in ["exercise", "workout", "gym", "walk", "run", "active"]):
-        return "Exercise with diabetes is tricky—it can drop you or spike you depending on the type and timing. Walking after meals tends to lower BG gently. Strength training might spike you short-term. Key is checking before/after and having fast carbs ready. What kind of movement are you thinking about?"
+        return "Exercise affects everyone differently with diabetes. What kind of movement are you thinking about?"
 
-    # A1C / doctor anxiety
+    # Doctor/A1C anxiety
     if any(word in message_lower for word in ["doctor", "endo", "appointment", "a1c"]):
-        return "Appointment anxiety is real. Remember: your A1C is data, not a grade. A good endo works WITH you, not against you. If you feel judged, it might be time for a new provider. Would it help to write down your questions/concerns before you go?"
+        return "Appointment anxiety is real. Your A1C is data, not a grade. What's weighing on you about it?"
 
-    # Default to random actionable response
+    # Insulin dosing - refuse appropriately
+    if any(word in message_lower for word in ["dose", "dosing", "how much insulin", "units"]):
+        return "I can't give insulin dosing advice — that needs to come from your endocrinologist based on your specific treatment plan. Have you been able to reach your care team?"
+
+    # Default
     return random.choice(FALLBACK_RESPONSES)
 
 
@@ -185,47 +190,25 @@ def get_fallback_response(message: str) -> str:
 # GENERATION
 # ============================================================
 
-SYSTEM_PROMPT = """You are a supportive companion for someone living with diabetes. You understand the daily challenges—blood sugar swings, constant monitoring, technology frustrations, the mental load, and burnout.
+SYSTEM_PROMPT = """You are the SwarmHealth Diabetes Companion, a supportive AI assistant for people managing diabetes. You provide emotional support, practical tips, and encouragement while always recommending users consult healthcare professionals for medical decisions.
 
-## Your Approach
-
-When someone shares their struggles, provide REAL, ACTIONABLE support across three areas:
-
-### 1. EMOTIONAL SUPPORT
-- Validate their feelings genuinely—not with empty phrases
-- Share that diabetes burnout is real and they're not failing
-- If they seem in crisis or mention self-harm, gently encourage reaching out to:
-  - Their care team or doctor
-  - 988 Suicide & Crisis Lifeline (call/text 988)
-  - A trusted friend or family member
-
-### 2. NUTRITION GUIDANCE (general wellness, not prescriptive)
-- Suggest blood-sugar-friendly foods: leafy greens, lean proteins, nuts, legumes, whole grains
-- Mention timing strategies: eating protein first, pairing carbs with fiber/fat
-- Hydration reminders—water helps with glucose regulation
-- Acknowledge that food isn't the enemy and occasional treats are okay
-- For specific meal plans, recommend they work with a dietitian
-
-### 3. MOVEMENT & EXERCISE
-- Walking after meals can help lower post-meal spikes
-- Gentle movement: yoga, stretching, swimming are low-impact options
-- Suggest starting small: 10-minute walks, not marathons
-- Acknowledge that exercise affects blood sugar differently for everyone
-- Remind them to check BG before/after exercise if they're insulin-dependent
-
-## Response Style
-- Be warm but REAL—not saccharine or performative
-- Give 1-2 concrete suggestions they can try TODAY
+Key behaviors:
+- Be warm and empathetic, but not saccharine or performative
+- Validate feelings genuinely — diabetes burnout is real
+- Never provide specific medical dosing or treatment recommendations
+- Escalate emergencies (chest pain, confusion, very high/low blood sugar with symptoms) to 911/ER
+- Support emotional wellbeing and acknowledge the mental load
+- Offer practical lifestyle guidance within appropriate bounds
 - Ask follow-up questions to understand their situation
-- Keep responses focused and helpful, not preachy
 
-## Safety Boundaries
-- NEVER suggest specific insulin doses or medication changes
+Safety boundaries:
+- NEVER give insulin doses, medication changes, or specific treatment advice
 - NEVER diagnose conditions
-- For medical emergencies (DKA symptoms, severe hypos), urge immediate medical care
-- Always frame suggestions as "things that help some people" not medical advice
+- For emergencies: direct to 911 or ER immediately
+- For crisis/self-harm mentions: provide 988 Suicide & Crisis Lifeline
+- Frame suggestions as "things that help some people" not medical advice
 
-You're a knowledgeable friend who lives with diabetes too—practical, caring, and real."""
+You understand the daily grind — the monitoring, the decisions, the exhaustion. You're direct, practical, and real."""
 
 
 def generate_response(message: str, history: List[Message]) -> str:
@@ -360,7 +343,7 @@ async def why_page():
 async def startup():
     """Load model on startup"""
     print("=" * 50)
-    print("💚 SwarmHealth Starting...")
+    print("💚 SwarmHealth v3.0 Starting...")
     print("=" * 50)
     load_model()
 
@@ -371,10 +354,10 @@ async def startup():
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     print()
     print("=" * 50)
-    print("💚 SwarmHealth API Server")
+    print("💚 SwarmHealth API Server v3.0")
     print("   Free AI Health Companions")
     print("=" * 50)
     print(f"📍 http://0.0.0.0:{PORT}")
@@ -382,7 +365,7 @@ if __name__ == "__main__":
     print(f"🖥️  Device: {DEVICE}")
     print("=" * 50)
     print()
-    
+
     uvicorn.run(
         "server:app",
         host="0.0.0.0",
