@@ -1,0 +1,116 @@
+# =============================================================================
+# STINGER V2 — .gitignore
+# stinger.swarmbee.eth
+# =============================================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+
+# Testing
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.hypothesis/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Distribution
+*.manifest
+*.spec
+
+# Logs
+*.log
+logs/
+
+# Local development
+.env
+.env.local
+.env.*.local
+*.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+ledger.db
+
+# Outputs (generated files)
+outputs/
+*.pdf
+reports/
+
+# Models (too large for git)
+*.pt
+*.pth
+*.onnx
+*.bin
+*.safetensors
+models/
+checkpoints/
+
+# IPFS local
+.ipfs/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Secrets - NEVER COMMIT
+*.pem
+*.key
+private_key*
+.secrets/
+secrets/
+
+# Temporary
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Docker
+.docker/
+
+# Node (if any frontend)
+node_modules/
+npm-debug.log
+yarn-error.log

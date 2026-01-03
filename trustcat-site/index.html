@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrustCat — Sovereign Medical AI Infrastructure</title>
+    <meta name="description" content="Medical AI that never leaves your building. Air-gapped. Compliant. Yours.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ================================================================
+           TRUSTCAT.AI — MIDNIGHT BLUE MEDICAL GRADE
+           No logos. Just truth.
+           ================================================================ */
+        
+        :root {
+            /* Midnight Blue Palette */
+            --midnight-900: #0a0e1a;
+            --midnight-800: #0f1629;
+            --midnight-700: #151d35;
+            --midnight-600: #1a2542;
+            --midnight-500: #1e2d4f;
+            --midnight-400: #2a3f6b;
+            --midnight-300: #3d5a8a;
+            --midnight-200: #5e7faa;
+            --midnight-100: #8fa8c9;
+            --midnight-50: #c5d4e8;
+            
+            /* Text */
+            --text-primary: #e8edf5;
+            --text-secondary: #9eb3cf;
+            --text-muted: #6b8299;
+            
+            /* Accents - subtle, medical */
+            --accent: #4a90d9;
+            --accent-dim: #2d5a8a;
+            
+            /* Semantic */
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --danger: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--midnight-900);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* ================================================================
+           LAYOUT
+           ================================================================ */
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 6rem 0;
+        }
+        
+        /* ================================================================
+           NAVIGATION
+           ================================================================ */
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--midnight-700);
+            padding: 1rem 0;
+        }
+        
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .wordmark {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+        
+        .wordmark span {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        
+        .nav-cta {
+            background: var(--midnight-600);
+            color: var(--text-primary);
+            padding: 0.6rem 1.25rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--midnight-500);
+            transition: all 0.2s;
+        }
+        
+        .nav-cta:hover {
+            background: var(--midnight-500);
+            border-color: var(--midnight-400);
+        }
+        
+        /* ================================================================
+           HERO
+           ================================================================ */
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 5rem;
+            background: 
+                radial-gradient(ellipse at 50% 0%, var(--midnight-700) 0%, transparent 50%),
+                var(--midnight-900);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1 .highlight {
+            color: var(--accent);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--midnight-700);
+        }
+        
+        .stat {
+            text-align: left;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+        
+        /* ================================================================
+           THE TRUTH SECTION
+           ================================================================ */
+        
+        .truth {
+            background: var(--midnight-800);
+            border-top: 1px solid var(--midnight-700);
+            border-bottom: 1px solid var(--midnight-700);
+        }
+        
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            max-width: 600px;
+        }
+        
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+        
+        .truth-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--midnight-700);
+            border: 1px solid var(--midnight-700);
+        }
+        
+        .truth-item {
+            background: var(--midnight-800);
+            padding: 2.5rem;
+        }
+        
+        .truth-item h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+        
+        .truth-item p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* ================================================================
+           COMPARISON SECTION
+           ================================================================ */
+        
+        .comparison {
+            background: var(--midnight-900);
+        }
+        
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .comparison-header .section-title,
+        .comparison-header .section-desc {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table thead {
+            background: var(--midnight-800);
+        }
+        
+        .comparison-table th {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--midnight-700);
+        }
+        
+        .comparison-table th:first-child {
+            color: var(--text-muted);
+        }
+        
+        .comparison-table th:nth-child(2) {
+            color: var(--text-muted);
+        }
+        
+        .comparison-table th:nth-child(3) {
+            color: var(--accent);
+        }
+        
+        .comparison-table td {
+            padding: 1.25rem 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--midnight-800);
+            vertical-align: top;
+        }
+        
+        .comparison-table td:first-child {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .comparison-table td:nth-child(3) {
+            color: var(--text-primary);
+        }
+        
+        .comparison-table tbody tr:hover {
+            background: var(--midnight-800);
+        }
+        
+        .check {
+            color: var(--success);
+        }
+        
+        .cross {
+            color: var(--danger);
+            opacity: 0.7;
+        }
+        
+        /* ================================================================
+           INFRASTRUCTURE SECTION
+           ================================================================ */
+        
+        .infrastructure {
+            background: var(--midnight-800);
+            border-top: 1px solid var(--midnight-700);
+        }
+        
+        .infra-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        
+        .infra-content {
+            padding-right: 2rem;
+        }
+        
+        .infra-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+        
+        .infra-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--midnight-700);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .infra-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .infra-list .label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .infra-list .value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: right;
+        }
+        
+        .infra-visual {
+            background: var(--midnight-900);
+            border: 1px solid var(--midnight-700);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+        
+        .rack-diagram {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+        
+        .rack-diagram .highlight {
+            color: var(--accent);
+        }
+        
+        .rack-diagram .dim {
+            color: var(--midnight-400);
+        }
+        
+        /* ================================================================
+           COMPLIANCE SECTION
+           ================================================================ */
+        
+        .compliance {
+            background: var(--midnight-900);
+        }
+        
+        .compliance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .compliance-item {
+            background: var(--midnight-800);
+            border: 1px solid var(--midnight-700);
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        
+        .compliance-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .compliance-item .standard {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        
+        .compliance-item p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* ================================================================
+           HOW IT WORKS SECTION
+           ================================================================ */
+        
+        .how-it-works {
+            background: var(--midnight-800);
+            border-top: 1px solid var(--midnight-700);
+            border-bottom: 1px solid var(--midnight-700);
+        }
+        
+        .pipeline {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-top: 3rem;
+            background: var(--midnight-900);
+            border: 1px solid var(--midnight-700);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .pipeline-step {
+            flex: 1;
+            padding: 2rem;
+            text-align: center;
+            border-right: 1px solid var(--midnight-700);
+            position: relative;
+        }
+        
+        .pipeline-step:last-child {
+            border-right: none;
+        }
+        
+        .pipeline-step::after {
+            content: '→';
+            position: absolute;
+            right: -0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--midnight-400);
+            font-size: 1.25rem;
+        }
+        
+        .pipeline-step:last-child::after {
+            display: none;
+        }
+        
+        .step-number {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+        
+        .step-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .step-ens {
+            font-size: 0.7rem;
+            color: var(--accent);
+            margin-top: 0.75rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+        
+        /* ================================================================
+           ENS IDENTITY SECTION
+           ================================================================ */
+        
+        .ens-section {
+            background: var(--midnight-900);
+        }
+        
+        .ens-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .ens-domains {
+            background: var(--midnight-800);
+            border: 1px solid var(--midnight-700);
+            border-radius: 8px;
+            padding: 2rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+        }
+        
+        .ens-domain {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--midnight-700);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .ens-domain:last-child {
+            border-bottom: none;
+        }
+        
+        .ens-domain .name {
+            color: var(--accent);
+        }
+        
+        .ens-domain .role {
+            color: var(--text-muted);
+        }
+        
+        /* ================================================================
+           CTA SECTION
+           ================================================================ */
+        
+        .cta {
+            background: var(--midnight-800);
+            border-top: 1px solid var(--midnight-700);
+            text-align: center;
+            padding: 8rem 0;
+        }
+        
+        .cta h2 {
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+        
+        .cta p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: var(--midnight-900);
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: #5a9fe8;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: 1px solid var(--midnight-500);
+            transition: all 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--midnight-700);
+            border-color: var(--midnight-400);
+        }
+        
+        /* ================================================================
+           FOOTER
+           ================================================================ */
+        
+        footer {
+            background: var(--midnight-900);
+            border-top: 1px solid var(--midnight-700);
+            padding: 4rem 0;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-left {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .footer-left strong {
+            color: var(--text-secondary);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--text-secondary);
+        }
+        
+        /* ================================================================
+           RESPONSIVE
+           ================================================================ */
+        
+        @media (max-width: 900px) {
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .truth-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .infra-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .compliance-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ens-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pipeline {
+                flex-direction: column;
+            }
+            
+            .pipeline-step {
+                border-right: none;
+                border-bottom: 1px solid var(--midnight-700);
+            }
+            
+            .pipeline-step:last-child {
+                border-bottom: none;
+            }
+            
+            .pipeline-step::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -0.5rem;
+                transform: translateX(50%);
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ================================================================
+         NAVIGATION
+         ================================================================ -->
+    <nav>
+        <div class="container">
+            <div class="wordmark">TrustCat<span>.ai</span></div>
+            <ul class="nav-links">
+                <li><a href="#truth">Why Sovereign</a></li>
+                <li><a href="#infrastructure">Infrastructure</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#compliance">Compliance</a></li>
+            </ul>
+            <a href="#portal" class="nav-cta">Client Portal</a>
+        </div>
+    </nav>
+
+    <!-- ================================================================
+         HERO
+         ================================================================ -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Medical AI that never leaves <span class="highlight">your building</span></h1>
+                <p class="hero-subtitle">
+                    Your patient data stays on your network. Your models run on your hardware. 
+                    Your infrastructure, your control. No cloud. No vendor lock-in. No trust required.
+                </p>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">296</div>
+                    <div class="stat-label">GPUs in Fleet</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Data Residency</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">External API Calls</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">∞</div>
+                    <div class="stat-label">Scans Included</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         THE TRUTH
+         ================================================================ -->
+    <section class="truth" id="truth">
+        <div class="container">
+            <div class="section-label">The Truth</div>
+            <h2 class="section-title">Cloud AI asks you to trust. We ask you to verify.</h2>
+            <p class="section-desc">
+                Every claim we make can be proven. Every inference can be traced. 
+                Every model version is explicit. This is what sovereignty means.
+            </p>
+            
+            <div class="truth-grid">
+                <div class="truth-item">
+                    <h3>Your Data Never Leaves</h3>
+                    <p>Patient data stays on your LAN. No transmission to external servers. No vendor caching. No jurisdictional exposure. Full HIPAA residency control without the trust gap.</p>
+                </div>
+                <div class="truth-item">
+                    <h3>Cryptographic Proof</h3>
+                    <p>Every inference generates a Merkle proof. Every report is signed with EIP-191. Every job is anchored to IPFS. You can prove what ran, when, and why — forever.</p>
+                </div>
+                <div class="truth-item">
+                    <h3>You Own the Models</h3>
+                    <p>The weights live on your hardware. You control versions, updates, and rollbacks. No silent vendor changes. No surprise regressions. No deprecation notices.</p>
+                </div>
+                <div class="truth-item">
+                    <h3>Air-Gapped Ready</h3>
+                    <p>Full operation without internet connectivity. Signing happens on isolated hardware. Perfect for high-security environments, classified facilities, and true compliance.</p>
+                </div>
+                <div class="truth-item">
+                    <h3>Fixed Cost, Infinite Scale</h3>
+                    <p>One hardware investment. Zero per-scan fees. No API charges. No egress costs. Your marginal cost per inference approaches zero as volume grows.</p>
+                </div>
+                <div class="truth-item">
+                    <h3>Deterministic Outputs</h3>
+                    <p>Same input, same output, same proof. Auditors can reproduce results. Regulators can reason about the system. No black boxes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         COMPARISON
+         ================================================================ -->
+    <section class="comparison">
+        <div class="container">
+            <div class="comparison-header">
+                <div class="section-label">Point by Point</div>
+                <h2 class="section-title">Cloud AI vs. Sovereign Infrastructure</h2>
+                <p class="section-desc">
+                    We built this comparison because we kept having the same conversation. 
+                    Here's the truth, side by side.
+                </p>
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Dimension</th>
+                        <th>Cloud AI</th>
+                        <th>TrustCat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Data Location</td>
+                        <td>Leaves your facility</td>
+                        <td>Never leaves your LAN</td>
+                    </tr>
+                    <tr>
+                        <td>Audit Trail</td>
+                        <td>Vendor-controlled logs</td>
+                        <td>Merkle proofs on IPFS</td>
+                    </tr>
+                    <tr>
+                        <td>Model Control</td>
+                        <td>Vendor updates silently</td>
+                        <td>You own every version</td>
+                    </tr>
+                    <tr>
+                        <td>Cost Model</td>
+                        <td>Per-scan + Per-API + Egress</td>
+                        <td>Fixed hardware, $0 marginal</td>
+                    </tr>
+                    <tr>
+                        <td>Internet Required</td>
+                        <td>Always</td>
+                        <td>Never</td>
+                    </tr>
+                    <tr>
+                        <td>Latency</td>
+                        <td>Variable, network-dependent</td>
+                        <td>Sub-100ms local inference</td>
+                    </tr>
+                    <tr>
+                        <td>Vendor Lock-in</td>
+                        <td>Complete</td>
+                        <td>None — open formats</td>
+                    </tr>
+                    <tr>
+                        <td>Compliance Posture</td>
+                        <td>Shared responsibility fog</td>
+                        <td>Clear system boundaries</td>
+                    </tr>
+                    <tr>
+                        <td>Trust Model</td>
+                        <td>"Trust the vendor"</td>
+                        <td>"Verify the system"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         INFRASTRUCTURE
+         ================================================================ -->
+    <section class="infrastructure" id="infrastructure">
+        <div class="container">
+            <div class="infra-grid">
+                <div class="infra-content">
+                    <div class="section-label">Infrastructure</div>
+                    <h2 class="section-title">Real hardware. Real power. Real sovereignty.</h2>
+                    <p class="section-desc">
+                        This isn't a diagram of what we could build. This is what's running right now, 
+                        processing medical imaging workloads 24/7 on solar-powered, air-gapped infrastructure.
+                    </p>
+                    
+                    <ul class="infra-list">
+                        <li>
+                            <span class="label">GPU Fleet</span>
+                            <span class="value">296 GPUs Total</span>
+                        </li>
+                        <li>
+                            <span class="label">RTX 5090</span>
+                            <span class="value">48 Cards</span>
+                        </li>
+                        <li>
+                            <span class="label">RTX 6000 Ada</span>
+                            <span class="value">48 Cards</span>
+                        </li>
+                        <li>
+                            <span class="label">RTX 3090</span>
+                            <span class="value">200 Cards</span>
+                        </li>
+                        <li>
+                            <span class="label">Network</span>
+                            <span class="value">10G Fiber</span>
+                        </li>
+                        <li>
+                            <span class="label">Power</span>
+                            <span class="value">Solar + Battery</span>
+                        </li>
+                        <li>
+                            <span class="label">Location</span>
+                            <span class="value">Florida, USA</span>
+                        </li>
+                        <li>
+                            <span class="label">Air-Gap Capable</span>
+                            <span class="value">Yes</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="infra-visual">
+                    <pre class="rack-diagram">
+<span class="dim">┌────────────────────────────────────────┐</span>
+<span class="dim">│</span>  <span class="highlight">SOVEREIGN RACK INFRASTRUCTURE</span>         <span class="dim">│</span>
+<span class="dim">├────────────────────────────────────────┤</span>
+<span class="dim">│</span>                                        <span class="dim">│</span>
+<span class="dim">│</span>  <span class="highlight">█████████</span> RTX 5090 × 8   [2.7 TFLOPS] <span class="dim">│</span>
+<span class="dim">│</span>  <span class="highlight">█████████</span> RTX 5090 × 8   [2.7 TFLOPS] <span class="dim">│</span>
+<span class="dim">│</span>  <span class="highlight">█████████</span> RTX 5090 × 8   [2.7 TFLOPS] <span class="dim">│</span>
+<span class="dim">│</span>  <span class="highlight">█████████</span> RTX 5090 × 8   [2.7 TFLOPS] <span class="dim">│</span>
+<span class="dim">│</span>  <span class="highlight">█████████</span> RTX 5090 × 8   [2.7 TFLOPS] <span class="dim">│</span>
+<span class="dim">│</span>  <span class="highlight">█████████</span> RTX 5090 × 8   [2.7 TFLOPS] <span class="dim">│</span>
+<span class="dim">│</span>                                        <span class="dim">│</span>
+<span class="dim">│</span>  ─────────────────────────────────     <span class="dim">│</span>
+<span class="dim">│</span>  10G SPINE SWITCH                      <span class="dim">│</span>
+<span class="dim">│</span>  ─────────────────────────────────     <span class="dim">│</span>
+<span class="dim">│</span>                                        <span class="dim">│</span>
+<span class="dim">│</span>  <span class="highlight">████</span> MERLIN   Air-gapped signer       <span class="dim">│</span>
+<span class="dim">│</span>  <span class="highlight">████</span> QUEENBEE Prompt orchestrator     <span class="dim">│</span>
+<span class="dim">│</span>  <span class="highlight">████</span> STINGER  Gateway                 <span class="dim">│</span>
+<span class="dim">│</span>                                        <span class="dim">│</span>
+<span class="dim">│</span>  ─────────────────────────────────     <span class="dim">│</span>
+<span class="dim">│</span>  ☀️  SOLAR ARRAY → BATTERY BACKUP      <span class="dim">│</span>
+<span class="dim">│</span>  ─────────────────────────────────     <span class="dim">│</span>
+<span class="dim">│</span>                                        <span class="dim">│</span>
+<span class="dim">└────────────────────────────────────────┘</span>
+
+<span class="dim">Chain ID: 1 (Ethereum Mainnet)</span>
+<span class="dim">ENS Root: swarmos.eth</span>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         HOW IT WORKS
+         ================================================================ -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-label">How It Works</div>
+            <h2 class="section-title">From upload to signed report in under 30 seconds</h2>
+            <p class="section-desc">
+                Every step happens on your network. Every component has a cryptographic identity. 
+                Every output is provable.
+            </p>
+            
+            <div class="pipeline">
+                <div class="pipeline-step">
+                    <div class="step-number">01</div>
+                    <div class="step-title">Upload</div>
+                    <div class="step-desc">DICOM, ECG, or CGM data enters Stinger gateway</div>
+                    <div class="step-ens">stinger.swarmbee.eth</div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-number">02</div>
+                    <div class="step-title">Parse & Route</div>
+                    <div class="step-desc">Intelligent classification determines optimal model path</div>
+                    <div class="step-ens">stinger.swarmbee.eth</div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-number">03</div>
+                    <div class="step-title">Gold Prompt</div>
+                    <div class="step-desc">Clinical-grade prompt selected from 15 specialties</div>
+                    <div class="step-ens">queenbee.swarmbee.eth</div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-number">04</div>
+                    <div class="step-title">Inference</div>
+                    <div class="step-desc">70B medical reasoning model on local GPUs</div>
+                    <div class="step-ens">bumble.swarmbee.eth</div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-number">05</div>
+                    <div class="step-title">Sign & Seal</div>
+                    <div class="step-desc">Merkle proof, EIP-191 signature, IPFS anchor</div>
+                    <div class="step-ens">merlin.swarmbee.eth</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         ENS IDENTITY
+         ================================================================ -->
+    <section class="ens-section">
+        <div class="container">
+            <div class="ens-grid">
+                <div>
+                    <div class="section-label">Identity Layer</div>
+                    <h2 class="section-title">Every component has a cryptographic identity on Ethereum</h2>
+                    <p class="section-desc">
+                        ENS domains aren't branding. They're infrastructure. Each service resolves to 
+                        a verifiable identity on Ethereum mainnet (Chain ID: 1). No DNS. No certificate authorities. 
+                        Just cryptographic truth.
+                    </p>
+                </div>
+                
+                <div class="ens-domains">
+                    <div class="ens-domain">
+                        <span class="name">swarmos.eth</span>
+                        <span class="role">Root Identity</span>
+                    </div>
+                    <div class="ens-domain">
+                        <span class="name">stinger.swarmbee.eth</span>
+                        <span class="role">Gateway</span>
+                    </div>
+                    <div class="ens-domain">
+                        <span class="name">queenbee.swarmbee.eth</span>
+                        <span class="role">Prompt Orchestrator</span>
+                    </div>
+                    <div class="ens-domain">
+                        <span class="name">bumble.swarmbee.eth</span>
+                        <span class="role">70B Inference</span>
+                    </div>
+                    <div class="ens-domain">
+                        <span class="name">swarmpool.swarmbee.eth</span>
+                        <span class="role">Job Ledger</span>
+                    </div>
+                    <div class="ens-domain">
+                        <span class="name">merlin.swarmbee.eth</span>
+                        <span class="role">Air-Gapped Signer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         COMPLIANCE
+         ================================================================ -->
+    <section class="compliance" id="compliance">
+        <div class="container">
+            <div class="section-label">Compliance</div>
+            <h2 class="section-title">Built for regulators who need to reason about systems</h2>
+            <p class="section-desc">
+                Shared responsibility models create fog. Our architecture creates clarity. 
+                Every boundary is explicit. Every data flow is traceable.
+            </p>
+            
+            <div class="compliance-grid">
+                <div class="compliance-item">
+                    <h3>HIPAA Security Rule</h3>
+                    <div class="standard">45 CFR § 164.312</div>
+                    <p>Full data residency. Encryption at rest and in transit. Access logging with cryptographic integrity. No BAA ambiguity — you control the infrastructure.</p>
+                </div>
+                <div class="compliance-item">
+                    <h3>FDA 21 CFR Part 11</h3>
+                    <div class="standard">Electronic Records</div>
+                    <p>Deterministic outputs. Timestamped audit trails. EIP-191 signatures provide non-repudiation. Version-controlled model registry.</p>
+                </div>
+                <div class="compliance-item">
+                    <h3>EU MDR</h3>
+                    <div class="standard">Article 14 — Clinical Evaluation</div>
+                    <p>Reproducible clinical evidence. Explicit model versioning. Traceable validation datasets. Clear system boundaries for conformity assessment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         CTA
+         ================================================================ -->
+    <section class="cta" id="portal">
+        <div class="container">
+            <h2>Ready to own your AI infrastructure?</h2>
+            <p>
+                Start with a pilot. No per-scan fees. No vendor lock-in. 
+                See what sovereignty feels like.
+            </p>
+            <div class="cta-buttons">
+                <a href="mailto:pilot@trustcat.ai" class="btn-primary">Request Pilot Access</a>
+                <a href="https://swarmos.eth.limo" class="btn-secondary">View Technical Docs</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================
+         FOOTER
+         ================================================================ -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <strong>TrustCat</strong> — Sovereign Medical AI Infrastructure<br>
+                    A product of SudoHash LLC, Florida, USA
+                </div>
+                <div class="footer-links">
+                    <a href="mailto:pilot@trustcat.ai">pilot@trustcat.ai</a>
+                    <a href="tel:+15615327120">561-532-7120</a>
+                    <a href="https://swarmos.eth.limo">swarmos.eth.limo</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
